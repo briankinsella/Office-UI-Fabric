@@ -5,7 +5,7 @@
 // --------------------------------------------------
 // Fabric Core Typography mixins
 
-@mixin ms-baseFont() {
+@mixin ms-baseFont {
   font-family: $ms-font-family-base;
   -webkit-font-smoothing: antialiased;
 }

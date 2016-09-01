@@ -41,6 +41,7 @@ gulp.task('watch-build', BuildConfig.buildTasks, function () {
         Plugins.runSequence('watch-build-tasks', done);
     }));
 });
+
 gulp.task('watch', ['watch-build', 'Server', 'BuildMessages-server']);
 
 // Debug Tasks

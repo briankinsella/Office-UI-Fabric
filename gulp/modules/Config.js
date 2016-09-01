@@ -1,6 +1,7 @@
 var path = require('path');
 var pkg = require('../../package.json');
 var Plugins = require('./Plugins');
+var Utilities = require('./Utilities');
 
 /**
  * Configuration class containing all properties to be used throughout the build
@@ -14,7 +15,6 @@ var Config = function() {
   this.paths = {
     dist: 'dist',
     src: 'src',
-    srcDocsPagesExamples: 'examples',
 		componentsPath : 'src/components',
     srcLibPath: 'lib',
 	};
@@ -22,6 +22,8 @@ var Config = function() {
   this.paths.distComponents = this.paths.dist + '/components';
   this.paths.distSass = this.paths.dist + '/sass';
   this.paths.distCSS = this.paths.dist + '/css';
+  this.paths.distDocumentation = this.paths.dist + '/documentation';
+  this.paths.distDocumentationCSS = this.paths.distDocumentation;
   this.paths.distSamples = this.paths.dist + '/samples';
   this.paths.distSampleComponents = this.paths.dist + '/samples/' + '/Components';
   this.paths.distJS = this.paths.dist + '/js';
@@ -31,14 +33,16 @@ var Config = function() {
   this.paths.distDocsSamples = this.paths.distDocumentation + '/Samples';
   this.paths.distDocsStyles = this.paths.distDocumentation + '/Styles';
   this.paths.bundlePath = this.paths.dist + '/bundles';
-  this.paths.distLibPath = this.paths.dist + '/lib';
   
   this.paths.srcSamples = this.paths.src + '/samples';
   this.paths.srcSass = this.paths.src + '/sass';
   this.paths.srcDocs = this.paths.src + '/documentation';
   this.paths.srcDocsPages = this.paths.srcDocs + '/pages';
-  this.paths.srcDocsComponents = this.paths.srcDocs + '/components';
   this.paths.srcTemplate = this.paths.srcDocs + '/templates';
+  this.paths.srcDocumentationCSS = this.paths.srcDocs + '/sass';
+  this.paths.srcDocumentationModels = this.paths.srcTemplate + '/models';
+  this.paths.srcDocTemplateModules = this.paths.srcTemplate + '/modules';
+  this.paths.srcDocTemplateModulesComponents = this.paths.srcDocTemplateModules + '/components';
   
 	this.port =  process.env.PORT || 2020;
 	this.projectURL =  "http://localhost";
@@ -69,16 +73,16 @@ var Config = function() {
     };
   this.typescriptProject = Plugins.tsc.createProject(this.typescriptConfig);
 	this.nugetConfig = {
-		id: "OfficeUIFabric",
-		title: "Office UI Fabric",
+		id: "OfficeUIFabricCore",
+		title: "Office UI Fabric Core",
 		version: pkg.version,
 		authors: "Microsoft Corporation",
 		owners: "Microsoft Corporation",
 		description: "Fabric is a responsive, mobile-first, front-end framework, designed to make it quick and simple for you to create web experiences using the Office Design Language. It’s easy to get up and running with Fabric—whether you’re creating a new Office experience from scratch or adding new features to an existing one.",
 		summary: "The front-end framework for building experiences for Office and Office 365.",
 		language: "en-us",
-		projectUrl: "https://github.com/OfficeDev/Office-UI-Fabric",
-		licenseUrl: "https://github.com/OfficeDev/Office-UI-Fabric/blob/master/LICENSE",
+		projectUrl: "https://github.com/OfficeDev/Office-UI-Fabric-Core",
+		licenseUrl: "https://github.com/OfficeDev/Office-UI-Fabric-Core/blob/master/LICENSE",
 		copyright: "Copyright (c) Microsoft Corporation",
 		requireLicenseAcceptance: true,
 		tags: "Microsoft UI Fabric CSS",
@@ -139,22 +143,6 @@ var Config = function() {
       "ContextualHost",
       "Button"
     ]
-  };
-  this.handleBarsConfig = {
-      ignorePartials: true,
-      partials:  {
-
-      },
-      batch: [],
-      helpers:  {
-        renderPartial: function(partial, props) {
-          var hbs = Plugins.handlebars.Handlebars;
-          var fileContents = Plugins.fs.readFileSync(this.paths.componentsPath + '/' + partial + '/' + partial +'.hbs',  "utf8");
-          var template = hbs.compile(fileContents);
-          var thisProps = {props: props};
-          return new hbs.SafeString(template(thisProps));
-        }.bind(this)
-      }
   };
 };
 
